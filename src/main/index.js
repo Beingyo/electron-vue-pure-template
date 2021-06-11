@@ -1,4 +1,4 @@
-import { app, BrowserWindown } from 'electron'
+import { app, BrowserWindow } from 'electron'
 // import { ipcMain } from 'electron'
 import initSys from '../system/index.js'
 
@@ -24,7 +24,7 @@ function createWindow() {
   /**
    * Initial window options
    */
-  mainWindow = new BrowserWindown({
+  mainWindow = new BrowserWindow({
     height: 700,
     useContentSize: true,
     width: 1200,
