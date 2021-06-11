@@ -22,10 +22,11 @@ Vue.use(Router)
   }
 **/
 export const constantRouterMap = [
-  { path: '/', component: () => import('@/views/dashboard/index'), hidden: true },
-  { path: '/404', component: () => import('@/views/404'), hidden: true },
-  { path: '/demoPage/demo1', component: () => import('@/views/demoPage/demo1'), hidden: true },
-  { path: '/demoPage/demo2', component: () => import('@/views/demoPage/demo2'), hidden: true },
+  { path: '/', component: () => import('@/views/dashboard/index') },
+  { path: '/404', component: () => import('@/views/404') },
+  { path: '/demoPage/demo1', component: () => import('@/views/demoPage/demo1') },
+  { path: '/demoPage/demo2', component: () => import('@/views/demoPage/demo2') },
+  { path: '/demoPage/demo3', component: () => import('@/views/demoPage/demo3') },
 
   // {
   //   path: '/',

@@ -1,7 +1,8 @@
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindown } from 'electron'
+// import { ipcMain } from 'electron'
 import initSys from '../system/index.js'
 
-let willQuitApp = false
+// const willQuitApp = false
 
 const isMac = process.platform === 'darwin'
 /**
@@ -12,6 +13,8 @@ if (process.env.NODE_ENV !== 'development') {
   global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
 
+process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
+
 let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
@@ -21,7 +24,7 @@ function createWindow() {
   /**
    * Initial window options
    */
-  mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindown({
     height: 700,
     useContentSize: true,
     width: 1200,
@@ -36,7 +39,7 @@ function createWindow() {
 
   // 初始化系统配置
   initSys(app, mainWindow)
-  
+
   mainWindow.on('enter-full-screen', () => {
     isMac && app.commandLine.appendSwitch('disable-pinch', true)
   })

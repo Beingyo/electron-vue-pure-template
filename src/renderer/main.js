@@ -22,8 +22,6 @@ Vue.prototype.$wsUrl = 'ws://localhost:10202'
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 
-// process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
-
 Vue.use(ElementUI, { locale })
 
 Vue.config.productionTip = false

@@ -23,3 +23,21 @@ export function getAppResourcePath(filePath) {
     }
   }
 }
+
+export function getJsonMockPath(filePath) {
+  if (process.platform === 'darwin' || process.platform === 'linux') {
+    if (process.env.NODE_ENV === 'development') {
+      return path.resolve('JSON/' + filePath)
+    } else {
+      return path.join(__dirname, '..') + filePath
+    }
+  } else {
+    // window
+    if (process.env.NODE_ENV === 'production') {
+      // 打包后
+      return path.resolve('resources/JSON/' + filePath)
+    } else {
+      return path.resolve('JSON/' + filePath)
+    }
+  }
+}

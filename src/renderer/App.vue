@@ -11,7 +11,7 @@ export default {
   name: 'App',
   components: {
     closeModal
-  },
+  }
 }
 </script>
 <style lang="scss">
