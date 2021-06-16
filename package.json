@@ -1,7 +1,7 @@
 {
   "name": "electron-vue-pure-template",
   "version": "1.0.0",
-  "author": "Pan <panfree23@gmail.com>",
+  "author": "413009063 <413009063@qq.com>",
   "description": "An electron-vue project",
   "license": "MIT",
   "main": "./dist/electron/main.js",
