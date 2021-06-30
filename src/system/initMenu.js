@@ -9,7 +9,7 @@ const menuConfig = [{
   submenu: [{
     label: '关于',
     accelerator: isMac ? 'Alt+Cmd+I' : 'Alt+Shift+I',
-    click: function() {
+    click: function () {
       info()
     }
   }]

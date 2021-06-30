@@ -1,8 +1,7 @@
-import { app, BrowserWindow } from 'electron'
-// import { ipcMain } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
 import initSys from '../system/index.js'
 
-// const willQuitApp = false
+let willQuitApp = false
 
 const isMac = process.platform === 'darwin'
 /**
@@ -39,7 +38,7 @@ function createWindow() {
 
   // 初始化系统配置
   initSys(app, mainWindow)
-
+  
   mainWindow.on('enter-full-screen', () => {
     isMac && app.commandLine.appendSwitch('disable-pinch', true)
   })

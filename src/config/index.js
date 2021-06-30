@@ -6,7 +6,7 @@ const config = {
   isUseTray: true, // 使用托盘
   isClose: true, // 关闭事件
   isAutoUpdate: true, // 自动更新
-  isMenu: true, // 菜单内容自定义
+  isMenu: true,   // 菜单内容自定义
   updateUrl: build.publish[0].url // 检测更新地址
 }
 

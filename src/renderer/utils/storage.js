@@ -3,7 +3,7 @@
 const name = 'electron-vue-pure-'
 
 function LgetItem(key) {
-  const value = localStorage.getItem(name + key)
+  let value = localStorage.getItem(name + key)
   return JSON.parse(value)
 }
 
@@ -16,7 +16,7 @@ function LreItem(key) {
 }
 
 function SgetItem(key) {
-  const value = sessionStorage.getItem(name + key)
+  let value = sessionStorage.getItem(name + key);
   return JSON.parse(value)
 }
 

@@ -11,9 +11,6 @@ import router from './router'
 import store from './store'
 // import axios from 'axios'
 
-import VueI18n from 'vue-i18n'
-import { LgetItem } from '@/utils/storage'
-
 import '@/icons' // icon
 import '@/permission' // permission control
 
@@ -29,20 +26,9 @@ Vue.use(ElementUI, { locale })
 
 Vue.config.productionTip = false
 
-Vue.use(VueI18n) // 通过插件的形式挂载，通过全局方法 Vue.use() 使用插件
-const i18n = new VueI18n({
-  // locale: 'zh', // 语言标识 //this.$i18n.locale // 通过切换locale的值来实现语言切换
-  locale: LgetItem('lang') || 'zh',
-  messages: {
-    'zh': require('@/lang/zh.json'),
-    'en': require('@/lang/en.json')
-  }
-})
-
 new Vue({
   components: { App },
   router,
   store,
-  i18n,
   template: '<App/>'
 }).$mount('#app')
