@@ -9,16 +9,17 @@
 <script>
 import { LreItem } from '@/utils/storage'
 export default {
-	data() {
-		return {}
-	},
-	methods: {
-		clear() {
-			LreItem('closeChecked')
-		},
-		toIndex() {
-			this.$router.push({ path: '/' })
-		},
-	},
+  data() {
+    return {
+	}
+  },
+  methods: {
+    clear() {
+      LreItem('closeChecked')
+    },
+    toIndex() {
+      this.$router.push({ path: '/' })
+    }
+  }
 }
 </script>

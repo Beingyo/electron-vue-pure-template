@@ -27,7 +27,7 @@ export default {
       UpdateInfo: {
         show: false,
         percentage: 0,
-        title: '正在下载新版本',
+        title: '下载进度',
         progressStaus: null,
         colors: [
           { color: '#f56c6c', percentage: 20 },
@@ -48,18 +48,21 @@ export default {
     this.$electron.ipcRenderer.on('updateAppMessage', (event, data) => {
       switch (data.status) {
         case -1:
-          console.log('updateAppMessage:' + data.msg)
+          console.log('updateAppMessage-error:' + data.msg)
           console.log('增量更新')
+          log.info('增量更新');
           // this.$message.error(data.msg)
           break
         case 0:
-          console.log('updateAppMessage:' + data.msg)
+          console.log('updateAppMessage-loading:' + data.msg)
           this.$message.info(data.msg)
+          log.info('case: 0');
           break
         case 1:
-          console.log('updateAppMessage:' + data.msg)
+          console.log('updateAppMessage-loading:' + data.msg)
           console.log('全量更新')
-            // this.updateApp()
+          log.info('判断全量更新');
+          //   this.updateApp()
           break
       }
     })
@@ -78,21 +81,22 @@ export default {
       this.$electron.ipcRenderer.on('updateAppProgress', (event, data) => {
         _this.UpdateInfo.percentage = data.percent.toFixed(0) // (data.percent).toFixed(2);
         console.log('进度条：data.percent =' + data.percent)
-        if (data.percent >= 100) {
-          _this.UpdateInfo.title = '下载完成，即将自动重启应用'
-          // if (_isHotUpdate) {
-          //   // _this.UpdateInfo.show = false;
-          // } else {
-          //   setTimeout(() => {
-          //     _this.$electron.ipcRenderer.on('isUpdateNow', () => {
-          //       _this.$electron.ipcRenderer.send('isUpdateNow')
-          //     })
-          //   }, 1000)
-          // }
-        }
+        log.info('进度条：data.percent =' + data.percent);
+        // if (data.percent >= 100) {
+        //   _this.UpdateInfo.title = '下载完成，即将自动重启应用'
+        //   if (_isHotUpdate) {
+        //     // _this.UpdateInfo.show = false;
+        //   } else {
+        //     setTimeout(() => {
+        //       _this.$electron.ipcRenderer.on('isUpdateNow', () => {
+        //         _this.$electron.ipcRenderer.send('isUpdateNow')
+        //       })
+        //     }, 1000)
+        //   }
+        // }
       })
     },
-    // 全量更新
+    // 暂时没用
     updateApp() {
       var _this = this
       _this
