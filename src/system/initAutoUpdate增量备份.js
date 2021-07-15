@@ -2,7 +2,7 @@ import { ipcMain, dialog } from 'electron'
 const EAU = require('electron-asar-hot-updater')
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
-const log = require('electron-log');
+// const log = require('electron-log')
 
 function initAutoUpdate(app, mainWindow, updateUrl) {
   ipcMain.on('hotUpdate', () => {

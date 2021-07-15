@@ -11,7 +11,7 @@ import { LreItem } from '@/utils/storage'
 export default {
   data() {
     return {
-	}
+    }
   },
   methods: {
     clear() {

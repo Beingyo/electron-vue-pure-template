@@ -22,7 +22,7 @@ Vue.use(Router)
   }
 **/
 export const constantRouterMap = [
-  { path: '/', component: () => import('@/views/dashboard/index')},
+  { path: '/', component: () => import('@/views/dashboard/index') },
   { path: '/404', component: () => import('@/views/404') },
   { path: '/demoPage/demo1', component: () => import('@/views/demoPage/demo1') },
   { path: '/demoPage/demo2', component: () => import('@/views/demoPage/demo2') },

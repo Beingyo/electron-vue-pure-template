@@ -1,9 +1,9 @@
-import { ipcMain } from 'electron'
+import { ipcMain, dialog } from 'electron'
 import { autoUpdater } from 'electron-updater'
 const EAU = require('electron-asar-hot-updater')
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
-const log = require('electron-log');
+const log = require('electron-log')
 
 function initAutoUpdate(app, mainWindow, updateUrl) {
   // 设置更新地址
@@ -48,7 +48,7 @@ function initAutoUpdate(app, mainWindow, updateUrl) {
   autoUpdater.on('download-progress', (progressObj) => {
     log.info('进度事件：' + JSON.stringify(progressObj))
     // setTimeout(() => {
-      // sendUpdateMessage(100)
+    // sendUpdateMessage(100)
     // }, 1000)
     // mainWindow.webContents.send('downloadProgress', progressObj)
     mainWindow.webContents.send('updateAppProgress', progressObj)

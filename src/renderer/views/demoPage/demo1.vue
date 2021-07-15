@@ -1,26 +1,30 @@
 <template>
-  <el-dialog
-    :title="UpdateInfo.title"
-    :visible.sync="UpdateInfo.show"
-    :show-close="false"
-    :close-on-press-escape="false"
-    :close-on-click-modal="false"
-    center
-    width="50%"
-    top="45vh"
-  >
-    <div class="conten">
-      <el-progress
-        :percentage="UpdateInfo.percentage"
-        :color="UpdateInfo.colors"
-        :status="UpdateInfo.progressStaus"
-      ></el-progress>
-    </div>
-  </el-dialog>
+  <div>
+    <el-button @click="toIndex" size="mini">返回</el-button>
+		<br /><br />
+    <el-dialog
+      :title="UpdateInfo.title"
+      :visible.sync="UpdateInfo.show"
+      :show-close="false"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
+      center
+      width="50%"
+      top="45vh"
+    >
+      <div class="conten">
+        <el-progress
+          :percentage="UpdateInfo.percentage"
+          :color="UpdateInfo.colors"
+          :status="UpdateInfo.progressStaus"
+        ></el-progress>
+      </div>
+    </el-dialog>
+  </div>
 </template>
 
 <script>
-const log = require('electron-log');
+// const log = require('electron-log')
 export default {
   data() {
     return {
@@ -59,19 +63,22 @@ export default {
         case 1:
           console.log('updateAppMessage:' + data.msg)
           console.log('全量更新')
-            // this.updateApp()
+          // this.updateApp()
           break
       }
     })
   },
   methods: {
+    toIndex() {
+      this.$router.push({ path: '/' })
+    },
     downloadUpdate() {
       var _this = this
-      var _isHotUpdate = false
+      // var _isHotUpdate = false
       this.$electron.ipcRenderer.send('hotUpdate')
       this.$electron.ipcRenderer.on('beginUpdate', () => {
         // 开始更新
-        _isHotUpdate = true
+        // _isHotUpdate = true
         _this.UpdateInfo.show = true
       })
       // 更新进度

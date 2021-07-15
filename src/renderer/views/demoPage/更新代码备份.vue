@@ -20,7 +20,7 @@
 </template>
 
 <script>
-const log = require('electron-log');
+const log = require('electron-log')
 export default {
   data() {
     return {
@@ -50,18 +50,18 @@ export default {
         case -1:
           console.log('updateAppMessage-error:' + data.msg)
           console.log('增量更新')
-          log.info('增量更新');
+          log.info('增量更新')
           // this.$message.error(data.msg)
           break
         case 0:
           console.log('updateAppMessage-loading:' + data.msg)
           this.$message.info(data.msg)
-          log.info('case: 0');
+          log.info('case: 0')
           break
         case 1:
           console.log('updateAppMessage-loading:' + data.msg)
           console.log('全量更新')
-          log.info('判断全量更新');
+          log.info('判断全量更新')
           //   this.updateApp()
           break
       }
@@ -70,18 +70,18 @@ export default {
   methods: {
     downloadUpdate() {
       var _this = this
-      var _isHotUpdate = false
+      // var _isHotUpdate = false
       this.$electron.ipcRenderer.send('hotUpdate')
       this.$electron.ipcRenderer.on('beginUpdate', () => {
         // 开始更新
-        _isHotUpdate = true
+        // _isHotUpdate = true
         _this.UpdateInfo.show = true
       })
       // 更新进度
       this.$electron.ipcRenderer.on('updateAppProgress', (event, data) => {
         _this.UpdateInfo.percentage = data.percent.toFixed(0) // (data.percent).toFixed(2);
         console.log('进度条：data.percent =' + data.percent)
-        log.info('进度条：data.percent =' + data.percent);
+        log.info('进度条：data.percent =' + data.percent)
         // if (data.percent >= 100) {
         //   _this.UpdateInfo.title = '下载完成，即将自动重启应用'
         //   if (_isHotUpdate) {
