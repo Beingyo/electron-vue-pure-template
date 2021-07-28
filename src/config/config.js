@@ -22,7 +22,7 @@ if (config.NODE_ENV === 'development') {
   config.devToolsShow = true
 } else if (config.NODE_ENV === 'test') {
   config.devToolsShow = true
-} else if (config.NODE_ENV === 'production') {
+} else if (config.NODE_ENV === 'production') {  // 生产环境禁用开发者工具 | false
   config.devToolsShow = false
 }
 

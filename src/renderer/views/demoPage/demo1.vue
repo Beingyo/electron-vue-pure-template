@@ -39,7 +39,9 @@ export default {
           { color: '#6f7ad3', percentage: 60 },
           { color: '#1989fa', percentage: 80 },
           { color: '#5cb87a', percentage: 100 }
-        ]
+        ],
+        updateType: 0,
+        isHotUpdate: false,
       }
     }
   },
@@ -52,18 +54,24 @@ export default {
     this.$electron.ipcRenderer.on('updateAppMessage', (event, data) => {
       switch (data.status) {
         case -1:
-          console.log('updateAppMessage:' + data.msg)
-          console.log('增量更新')
-          // this.$message.error(data.msg)
-          break
-        case 0:
-          console.log('updateAppMessage:' + data.msg)
           this.$message.info(data.msg)
           break
-        case 1:
+        case 0:
+          // 检测版本
           console.log('updateAppMessage:' + data.msg)
-          console.log('全量更新')
-          // this.updateApp()
+          // this.$message.info(data.msg)
+          break
+        case 1:
+          // 发现全量版本
+          console.log('updateAppMessage:' + data.msg)
+          this.updateType = 1
+          this.updateApp()
+          break
+        case 2:
+          // 发现增量版本
+          console.log('updateAppMessage:' + data.msg)
+          this.updateType = 2
+          this.updatePart()
           break
       }
     })
@@ -74,48 +82,47 @@ export default {
     },
     downloadUpdate() {
       var _this = this
-      // var _isHotUpdate = false
-      this.$electron.ipcRenderer.send('hotUpdate')
-      this.$electron.ipcRenderer.on('beginUpdate', () => {
-        // 开始更新
-        // _isHotUpdate = true
-        _this.UpdateInfo.show = true
-      })
       // 更新进度
       this.$electron.ipcRenderer.on('updateAppProgress', (event, data) => {
         _this.UpdateInfo.percentage = data.percent.toFixed(0) // (data.percent).toFixed(2);
         console.log('进度条：data.percent =' + data.percent)
         if (data.percent >= 100) {
           _this.UpdateInfo.title = '下载完成，即将自动重启应用'
-          // if (_isHotUpdate) {
-          //   // _this.UpdateInfo.show = false;
-          // } else {
-          //   setTimeout(() => {
-          //     _this.$electron.ipcRenderer.on('isUpdateNow', () => {
-          //       _this.$electron.ipcRenderer.send('isUpdateNow')
-          //     })
-          //   }, 1000)
-          // }
+          setTimeout(() => {
+              _this.isHotUpdate === true ? _this.$electron.ipcRenderer.send('isUpdatePartNow') : _this.$electron.ipcRenderer.send('isUpdateNow')
+          }, 3000)
         }
       })
     },
     // 全量更新
     updateApp() {
-      var _this = this
-      _this
-        .$confirm('版本有更新，是否立即更新！')
-        .then(() => {
-          _this.UpdateInfo.show = true
-        })
-        .catch(() => {})
+      this.$confirm('发现重大版本，是否进行更新?', '更新', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'info'
+      }).then(() => {
+        this.UpdateInfo.show = true
+        this.$electron.ipcRenderer.send('startDownload')
+      }).catch(() => {
+      });
     },
+    // 增量更新
+    updatePart() {
+      this.$confirm('发现增量版本，是否进行更新?', '更新', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'info'
+      }).then(() => {
+        this.UpdateInfo.show = true
+        this.isHotUpdate = true
+        //下载增量资源包
+        this.$electron.ipcRenderer.send('partDownload')
+      }).catch(() => {
+      });
+    },
+    // 检测更新状态
     checkForUpdate() {
-      // 全量更新：即将执行——downloadUpdate
-      // this.$electron.ipcRenderer.send('checkForUpdate', 'a')
-      // this.$electron.ipcRenderer.on('isUpdateNow', () => {
-      //   // 发送立即更新
-      //   this.$electron.ipcRenderer.send('isUpdateNow')
-      // })
+      this.$electron.ipcRenderer.send('checkForUpdate', 'a')
       this.downloadUpdate()
     }
   }

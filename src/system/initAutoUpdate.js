@@ -7,7 +7,8 @@ const log = require('electron-log')
 
 function initAutoUpdate(app, mainWindow, updateUrl) {
   // 设置更新地址
-  autoUpdater.setFeedURL(updateUrl)
+  autoUpdater.setFeedURL(updateUrl) // 设置全量更新包url
+  autoUpdater.autoDownload = false  // 发现全量版本后暂时不下载
   // 通过main进程发送事件给renderer进程，提示更新信息
   function sendUpdateMessage(text) {
     mainWindow.webContents.send('updateAppMessage', text)
@@ -15,9 +16,10 @@ function initAutoUpdate(app, mainWindow, updateUrl) {
   // 更新状态
   const returnData = {
     error: { status: -1, msg: '检测更新查询异常' },
+    updateNotAva: { status: -1, msg: '您现在使用的版本为最新版本,无需更新!' },
     checking: { status: 0, msg: '正在检查应用程序更新' },
-    updateAva: { status: 1, msg: '检测到新版本，正在下载,请稍后' },
-    updateNotAva: { status: -1, msg: '您现在使用的版本为最新版本,无需更新!' }
+    updateAva: { status: 1, msg: '检测到全量版本' },
+    updatePart: { status: 2, msg: '检测到增量版本' }
   }
   // 更新错误
   autoUpdater.on('error', () => {
@@ -28,49 +30,38 @@ function initAutoUpdate(app, mainWindow, updateUrl) {
     log.info('检查中')
     sendUpdateMessage(returnData.checking)
   })
-  // 发现新版本
+  // 发现全量版本
   autoUpdater.on('update-available', (info) => {
-    log.info('发现新版本')
-    if (!isDevelopment) {
+    log.info('发现全量版本')
+    if (autoUpdater.autoDownload === false) { // 不自动下载更新包时返回更新状态信息
       sendUpdateMessage(returnData.updateAva)
-    } else {
-      sendUpdateMessage(returnData.updateNotAva)
     }
   })
-  // 当前版本为最新版本
+  // 没有发现全量版本
   autoUpdater.on('update-not-available', (info) => {
     setTimeout(() => {
       hotUpdate() // 热更新检查
-      sendUpdateMessage(returnData.updateNotAva)
     }, 1000)
   })
-  // 更新下载进度事件(貌似不会执行方法)
+  // 更新下载进度事件
   autoUpdater.on('download-progress', (progressObj) => {
     log.info('进度事件：' + JSON.stringify(progressObj))
-    // setTimeout(() => {
-    // sendUpdateMessage(100)
-    // }, 1000)
-    // mainWindow.webContents.send('downloadProgress', progressObj)
     mainWindow.webContents.send('updateAppProgress', progressObj)
   })
   // 下载成功回调
   autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName, releaseDate, updateUrl, quitAndUpdate) => {
     log.info('下载成功回调')
+    mainWindow.webContents.send('updateAppProgress', { percent: 100 })
     ipcMain.on('isUpdateNow', (e, arg) => {
       // 退出程序并更新
+      log.info('收到更新命令')
       autoUpdater.quitAndInstall()
     })
-    mainWindow.webContents.send('isUpdateNow')
   })
   // 执行自动更新检查
-  ipcMain.on('checkForUpdate', (event, data) => {
-    autoUpdater.checkForUpdates() // 查询是否有新版本
-  })
-
-  ipcMain.on('hotUpdate', () => {
+  ipcMain.on('checkForUpdate', () => {
     if (!isDevelopment) {
-      // 增量更新
-      hotUpdate()
+      autoUpdater.checkForUpdates() // 查询是否有全量版本
     } else {
       dialog.showMessageBox({
         title: '更新',
@@ -81,6 +72,12 @@ function initAutoUpdate(app, mainWindow, updateUrl) {
       })
     }
   })
+  // 下载安装包
+  ipcMain.on('startDownload', () => {
+    autoUpdater.autoDownload = true
+    autoUpdater.checkForUpdates() // 查询是否有全量版本
+  })
+
   // 增量更新配置
   function hotUpdate() {
     // post请求方法
@@ -105,58 +102,66 @@ function initAutoUpdate(app, mainWindow, updateUrl) {
     })
     // 检测更新
     EAU.check((error, last, body) => {
-      if (error) {
-        if (error === 'no_update_available') {
-          dialog.showMessageBox({
-            title: '更新',
-            type: 'info',
-            message: '当前无新版本',
-            noLink: true,
-            buttons: ['确定']
-          })
-          return false
-        }
-        // console.log('EAU.check：' + error)
+      if (error === 'no_update_available') {
+        dialog.showMessageBox({
+          title: '更新',
+          type: 'info',
+          message: '当前无新版本',
+          noLink: true,
+          buttons: ['确定']
+        })
         return false
       }
-
-      mainWindow.webContents.send('beginUpdate')
-      // 返回下载进度
-      EAU.progress((state) => {
-        // console.log('EAU.progress.percent：' + state.percent)
-        mainWindow.webContents.send('updateAppProgress', { percent: state.percent * 100 })
-        // state的数据示例:
-        // {
-        //   percent: 0.5,
-        //   speed: 554732,
-        //   size: {
-        //     total: 90044871,
-        //     transferred: 27610959
-        //   },
-        //   time: {
-        //     elapsed: 36.235,
-        //     remaining: 81.403
-        //   }
-        // }
-      })
-      // 下载完成,即将更新
-      EAU.download((error) => {
-        if (error) {
-          // dialog.showErrorBox('info', error)
-          // console.log('EAU.download：' + error)
-          return false
-        }
-        // 通知页面显示进度条
-        mainWindow.webContents.send('updateAppProgress', { percent: 100 })
-        setTimeout(() => {
-          if (process.platform === 'darwin') {
-            app.relaunch()
-            app.quit()
-          } else {
-            app.quit()
+      if (error === 'cannot_connect_to_api') {
+        dialog.showMessageBox({
+          title: '失败',
+          type: 'error',
+          message: '无法连接服务器',
+          noLink: true,
+          buttons: ['确定']
+        })
+        return false
+      }
+      ipcMain.on('partDownload', () => {
+        // 返回下载进度
+        EAU.progress((state) => {
+          // console.log('EAU.progress.percent：' + state.percent)
+          mainWindow.webContents.send('updateAppProgress', { percent: state.percent * 100 })
+          // state的数据示例:
+          // {
+          //   percent: 0.5,
+          //   speed: 554732,
+          //   size: {
+          //     total: 90044871,
+          //     transferred: 27610959
+          //   },
+          //   time: {
+          //     elapsed: 36.235,
+          //     remaining: 81.403
+          //   }
+          // }
+        })
+        // 下载完成,即将更新
+        EAU.download((error) => {
+          if (error) {
+            dialog.showErrorBox('info', error)
+            // console.log('EAU.download：' + error)
+            return false
           }
-        }, 2000)
+          // 通知页面显示进度条
+          mainWindow.webContents.send('updateAppProgress', { percent: 100 })
+          ipcMain.on('isUpdatePartNow', () => {
+            if (process.platform === 'darwin') {
+              app.relaunch()
+              app.quit()
+            } else {
+              app.quit()
+            }
+          })
+        })
       })
+      // 告知渲染进程发现增量版本
+      sendUpdateMessage(returnData.updatePart)
     })
   }
 }

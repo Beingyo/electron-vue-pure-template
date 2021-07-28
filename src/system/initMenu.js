@@ -46,7 +46,7 @@ function info() {
 }
 function initMenu(mainWindow) {
   let menu
-  // 固定写死 true
+  // 设置菜单栏和开发者工具
   if (config.devToolsShow) {
     menu = Menu.buildFromTemplate(menuConfig)
     Menu.setApplicationMenu(menu)
