@@ -4,7 +4,7 @@
       <el-col :span="3" :offset="2"><div class="grid-content bg-purple"><span id="demo1" @click="routeLink">更新</span></div></el-col>
       <el-col :span="3" :offset="1"><div class="grid-content bg-purple"><span id="demo2" @click="routeLink">设置</span></div></el-col>
       <el-col :span="3" :offset="1"><div class="grid-content bg-purple"><span id="demo3" @click="routeLink">修改JSON文件</span></div></el-col>
-      <el-col :span="3" :offset="1"><div class="grid-content bg-purple"><span id="demo4" @click="routeLink">0</span></div></el-col>
+      <el-col :span="3" :offset="1"><div class="grid-content bg-purple"><span id="demo4" @click="routeLink">i18n</span></div></el-col>
     </el-row>
   </div>
 </template>

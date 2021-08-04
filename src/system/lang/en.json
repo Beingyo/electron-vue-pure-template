@@ -1,0 +1,24 @@
+{
+	"about": {
+		"label": "about",
+		"reload": "reload",
+		"quit": "quit",
+		"info": {
+			"title": "title",
+			"message": "vue-cli-electron",
+			"detail": "detail",
+			"buttons": {
+				"sure": "sure"
+			}
+		}
+	},
+	"setting": {
+		"label": "setting",
+		"reload": "reload",
+		"quit": "quit"
+	},
+	"toggledevtools": {
+		"label": "toggledevtools",
+		"tool": "tool"
+	}
+}

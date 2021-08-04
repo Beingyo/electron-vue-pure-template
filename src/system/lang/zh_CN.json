@@ -1,0 +1,22 @@
+{
+	"about": {
+		"label": "关于",
+		"info": {
+			"title": "关于",
+			"message": "vue-cli-electron",
+			"detail": "detail",
+			"buttons": {
+				"sure": "确定"
+			}
+		}
+	},
+	"setting": {
+		"label": "设置",
+		"reload": "重启",
+		"quit": "退出"
+	},
+	"toggledevtools": {
+		"label": "切换到开发者工具",
+		"tool": "开发者工具"
+	}
+}
