@@ -41,6 +41,11 @@ export default {
 			],
 		}
 	},
+	created() {
+		if (LgetItem('lang') !== null) {
+			this.value = LgetItem('lang')
+		}
+	},
 	methods: {
 		toIndex() {
 			this.$router.push({ path: '/' })
