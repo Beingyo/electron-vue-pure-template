@@ -19,8 +19,10 @@
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
     "postinstall": "npm run lint:fix"
   },
+
+
   "build": {
-    "productName": "electron-vue-build",
+    "productName": "产品名称",
     "appId": "org.yjy.electron-vue",
     "directories": {
       "output": "build"
@@ -71,9 +73,12 @@
       "allowElevation": true,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
       "runAfterFinish": true,
       "installerIcon": "./build/icons/icon.ico",
-      "uninstallerIcon": "./build/icons/icon.ico"
+      "uninstallerIcon": "./build/icons/icon.ico",
+      "installerHeaderIcon": "./build/icons/icon.ico",
+      "uninstallDisplayName": "卸载名称"
     }
   },
   "dependencies": {
