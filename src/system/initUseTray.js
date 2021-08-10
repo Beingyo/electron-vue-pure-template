@@ -1,6 +1,6 @@
 // import { dialog } from 'electron'
 import electron from 'electron'
-import config from '../config/index'
+import config from '@config/index'
 // 用一个 Tray 来表示一个图标,这个图标处于正在运行的系统的通知区 ，通常被添加到一个 context menu 上.
 const Menu = electron.Menu
 const Tray = electron.Tray

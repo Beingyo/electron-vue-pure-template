@@ -1,14 +1,11 @@
-// 获取开发环境（未实现）
+// 获取开发环境
 const env = process.env
-console.log('当前环境：' + process.env.NODE_ENV)
 const config = {
   loading: true,
   winSingle: true,
   devToolsShow: true,
-  VUE_APP_ENV: env.VUE_APP_ENV,
   NODE_ENV: env.NODE_ENV,
-  VUE_APP_APPID: env.VUE_APP_APPID,
-  VUE_APP_VERSION: env.VUE_APP_VERSION
+  VUE_APP_NAME: 'electron-vue-pure'
 }
 
 // if (config.VUE_APP_ENV === 'development') {

@@ -143,9 +143,13 @@ let rendererConfig = {
     libraryTarget: 'commonjs2',
     path: path.join(__dirname, '../dist/electron')
   },
+  // 自定义便捷路径
   resolve: {
     alias: {
       '@': path.join(__dirname, '../src/renderer'),
+      '@utils': path.join(__dirname, '../src/renderer/utils'),
+      '@config': path.join(__dirname, '../src/config'),
+      '@style': path.join(__dirname, '../src/renderer/styles'),
       'vue$': 'vue/dist/vue.esm.js'
     },
     extensions: ['.js', '.vue', '.json', '.css', '.node']

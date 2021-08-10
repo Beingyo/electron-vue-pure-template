@@ -1,9 +1,9 @@
 import { ipcMain, dialog } from 'electron'
 import { autoUpdater } from 'electron-updater'
 const EAU = require('electron-asar-hot-updater')
-const isDevelopment = process.env.NODE_ENV !== 'production'
-
 const log = require('electron-log')
+
+const isDevelopment = process.env.NODE_ENV !== 'production'
 
 function initAutoUpdate(app, mainWindow, updateUrl) {
   // 设置更新地址
@@ -32,7 +32,7 @@ function initAutoUpdate(app, mainWindow, updateUrl) {
   })
   // 发现全量版本
   autoUpdater.on('update-available', (info) => {
-    log.info('发现全量版本')
+    log.info('发现全量版本' + JSON.stringify(info))
     if (autoUpdater.autoDownload === false) { // 不自动下载更新包时返回更新状态信息
       sendUpdateMessage(returnData.updateAva)
     }
@@ -40,7 +40,8 @@ function initAutoUpdate(app, mainWindow, updateUrl) {
   // 没有发现全量版本
   autoUpdater.on('update-not-available', (info) => {
     setTimeout(() => {
-      hotUpdate() // 热更新检查
+      log.info('检查增量更新' + JSON.stringify(info))
+      hotUpdate() // 检查增量更新
     }, 1000)
   })
   // 更新下载进度事件
@@ -52,7 +53,7 @@ function initAutoUpdate(app, mainWindow, updateUrl) {
   autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName, releaseDate, updateUrl, quitAndUpdate) => {
     log.info('下载成功回调')
     mainWindow.webContents.send('updateAppProgress', { percent: 100 })
-    ipcMain.on('isUpdateNow', (e, arg) => {
+    ipcMain.on('isUpdateNow', () => {
       // 退出程序并更新
       log.info('收到更新命令')
       autoUpdater.quitAndInstall()
@@ -110,6 +111,8 @@ function initAutoUpdate(app, mainWindow, updateUrl) {
           noLink: true,
           buttons: ['确定']
         })
+        log.info('当前无新版本：' + JSON.stringify(last))
+        log.info('当前无新版本：' + JSON.stringify(body))
         return false
       }
       if (error === 'cannot_connect_to_api') {

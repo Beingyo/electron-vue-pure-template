@@ -1,6 +1,5 @@
-// import cfg from '@/config'
-// const name = `electron-vue-pure-${cfg.VUE_APP_ENV}-`
-const name = 'electron-vue-pure-'
+import cfg from '@config/config'
+const name = `${cfg.VUE_APP_NAME}-${cfg.VUE_APP_ENV}-`
 
 function LgetItem(key) {
   const value = localStorage.getItem(name + key)

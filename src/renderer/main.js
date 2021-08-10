@@ -12,7 +12,7 @@ import store from './store'
 // import axios from 'axios'
 
 import VueI18n from 'vue-i18n'
-import { LgetItem } from '@/utils/storage'
+import { LgetItem } from '@utils/storage'
 
 import '@/icons' // icon
 import '@/permission' // permission control

@@ -1,5 +1,7 @@
 import { app, dialog, Menu, ipcMain } from 'electron'
-import config from '../config/config'
+// import config from '@config/config'
+
+const config = require('@config/config')
 const os = require('os')
 const isMac = process.platform === 'darwin'
 const { version } = require('../../package.json')
@@ -48,13 +50,13 @@ function init() {
 }
 
 function info() {
-  console.log('当前环境' + process.env)
+  console.log(process.versions)
   dialog.showMessageBox({
     title: menuData.about.info.title, // 关于
     type: 'info',
     message: menuData.about.info.title.message,
     detail: `版本信息：\nelectron版本：${process.versions.electron}\n当前系统：${os.type()} ${os.arch()} ${os.release()}\n当前版本：${version}`,
-    // detail: `版本信息：\nelectron版本：${process.versions.electron}\n当前系统：${os.type()} ${os.arch()} ${os.release()}\n当前版本：${global.envConfig.VUE_APP_ENV}，${global.envConfig.VUE_APP_VERSION}`,
+    // detail: `版本信息：\n产品名称：${name}\nelectron版本：${process.versions.electron}\n当前系统：${os.type()} ${os.arch()} ${os.release()}\n当前版本：${version}`,
     noLink: true,
     buttons: [menuData.about.info.buttons.sure] // 确定
   })
