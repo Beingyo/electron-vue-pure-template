@@ -1,7 +1,8 @@
+// 设置菜单栏
 import { app, dialog, Menu, ipcMain } from 'electron'
-// import config from '@config/config'
+// import config from '../config/config'
 
-const config = require('@config/config')
+const config = require('../config/config')
 const os = require('os')
 const isMac = process.platform === 'darwin'
 const { version } = require('../../package.json')
@@ -85,6 +86,7 @@ function setMenu() {
       menu = Menu.buildFromTemplate(menuConfig)
       Menu.setApplicationMenu(menu)
     } else {
+      menu = Menu.buildFromTemplate(menuConfig)
       // 无菜单 | null
       Menu.setApplicationMenu(menu) // null
     }

@@ -1,5 +1,5 @@
 import { app, BrowserWindow } from 'electron'
-import initSys from '../system/index.js'
+import initSystem from '../system/index.js'
 // import { ipcMain } from 'electron'
 
 // const willQuitApp = false
@@ -38,7 +38,7 @@ function createWindow() {
   mainWindow.loadURL(winURL)
 
   // 初始化系统配置
-  initSys(app, mainWindow)
+  initSystem(app, mainWindow)
 
   mainWindow.on('enter-full-screen', () => {
     isMac && app.commandLine.appendSwitch('disable-pinch', true)
@@ -70,6 +70,7 @@ app.on('activate', () => {
 // app.on('before-quit', () => {
 //   willQuitApp = true
 // })
+
 
 app.allowRendererProcessReuse = false
 

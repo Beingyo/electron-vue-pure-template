@@ -61,6 +61,10 @@
     "mac": {
       "icon": "build/icons/icon.icns"
     },
+    "protocols": [{
+      "name": "electron-vue-pure-template",
+      "schemes": ["electron-vue-pure-template"]
+    }],
     "win": {
       "icon": "build/icons/icon.ico"
     },
@@ -78,7 +82,8 @@
       "installerIcon": "./build/icons/icon.ico",
       "uninstallerIcon": "./build/icons/icon.ico",
       "installerHeaderIcon": "./build/icons/icon.ico",
-      "uninstallDisplayName": "卸载名称"
+      "uninstallDisplayName": "卸载名称",
+      "include": "installer.nsh"
     }
   },
   "dependencies": {

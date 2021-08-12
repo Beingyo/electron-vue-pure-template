@@ -24,7 +24,6 @@
 </template>
 
 <script>
-// const log = require('electron-log')
 export default {
   data() {
     return {

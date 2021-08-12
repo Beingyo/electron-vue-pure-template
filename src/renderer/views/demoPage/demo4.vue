@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { LgetItem, LsetItem } from '@utils/storage'
+import { LgetItem, LsetItem } from '@/utils/storage'
 export default {
 	data() {
 		return {

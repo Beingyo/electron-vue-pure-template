@@ -1,12 +1,17 @@
+// 托盘事件
 // import { dialog } from 'electron'
-import electron from 'electron'
-import config from '@config/index'
-// 用一个 Tray 来表示一个图标,这个图标处于正在运行的系统的通知区 ，通常被添加到一个 context menu 上.
-const Menu = electron.Menu
-const Tray = electron.Tray
+import { Menu, Tray, nativeImage, ipcMain }  from 'electron'
+import config from '../config/index'
+
+// 日志
+// const log = require('electron-log')
 // 托盘对象
 let appTray = null
-function initUseTray(app, mainWindow) {
+// 闪烁计时器
+let flashTimer = null
+let count = 0
+
+function initUseTray(app, mainWindow, isFlash) {
   const trayMenuTemplate = [
     {
       label: '显示',
@@ -40,7 +45,8 @@ function initUseTray(app, mainWindow) {
   ]
   // 系统托盘图标
   const trayIcon = __static + '/icons/icon.ico'
-  appTray = new Tray(trayIcon)
+  let image = nativeImage.createFromPath(trayIcon)
+  appTray = new Tray(image)
   // 图标的上下文菜单
   const contextMenu = Menu.buildFromTemplate(trayMenuTemplate)
   // 设置此托盘图标的悬停提示内容
@@ -51,6 +57,26 @@ function initUseTray(app, mainWindow) {
   appTray.on('click', () => {
     mainWindow.show()
   })
+
+  // 闪烁事件
+  if(isFlash) {
+    mainWindow.on('focus', () => {
+      if (flashTimer) {
+        clearInterval(flashTimer)
+        flashTimer = null
+        count = 0
+        mainWindow.webContents.send('disable', { disable: false })
+      }
+      mainWindow.flashFrame(false)
+      appTray.setImage(image)
+    })
+    ipcMain.on('flash', () => {
+      mainWindow.flashFrame(true)
+      flashTimer = setInterval(() => {
+        appTray.setImage(count++ % 2 === 0 ? image : nativeImage.createFromPath(null))
+      }, 500)
+    })
+  }
 }
 
 export default initUseTray

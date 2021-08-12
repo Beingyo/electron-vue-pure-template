@@ -1,3 +1,4 @@
+// 关闭事件
 import { ipcMain } from 'electron'
 
 let willQuitApp = false

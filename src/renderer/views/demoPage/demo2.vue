@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { LreItem } from '@utils/storage'
+import { LreItem } from '@/utils/storage'
 export default {
   data() {
     return {

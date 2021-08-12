@@ -1,3 +1,4 @@
+// 更新时间
 import { ipcMain, dialog } from 'electron'
 import { autoUpdater } from 'electron-updater'
 const EAU = require('electron-asar-hot-updater')

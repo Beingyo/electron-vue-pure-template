@@ -18,7 +18,7 @@ export default {
   },
   created() {
     const fs = require('fs')
-    const pathUtil = require('@utils/pathUtil.js')
+    const pathUtil = require('@/utils/pathUtil.js')
     const newList = []
     const that = this
     fs.readFile(

@@ -1,8 +1,9 @@
-import config from '@config/index'
+import config from '../config/index'
 import initAutoUpdate from './initAutoUpdate'
 import initUseTray from './initUseTray'
 import initClose from './initClose'
 import initMenu from './initMenu'
+import initStart from './initStart'
 
 function initSys(app, mainWindow) {
   if (config.isAutoUpdate) {
@@ -13,13 +14,16 @@ function initSys(app, mainWindow) {
     }
   }
   if (config.isUseTray) {
-    initUseTray(app, mainWindow)
+    initUseTray(app, mainWindow, config.isFlash)
   }
   if (config.isClose) {
     initClose(app, mainWindow)
   }
   if (config.isMenu) {
     initMenu(mainWindow)
+  }
+  if (config.isStart) {
+    initStart(app, mainWindow)
   }
 }
 
