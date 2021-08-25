@@ -36,11 +36,9 @@ export default {
       const closeChecked = LgetItem('closeChecked')
       const isMac = data.isMac
       if (closeChecked || isMac) {
-        // event.sender.invoke('win-close', LgetItem('closeValue'))
         this.$electron.ipcRenderer.send('win-close', LgetItem('closeValue'))
       } else {
         this.dialogVisible = true
-        // event.sender.invoke('win-focus', this.closeValue)
         this.$electron.ipcRenderer.send('win-focus', this.closeValue)
       }
     })

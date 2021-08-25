@@ -1,8 +1,5 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, screen } from 'electron'
 import initSystem from '../system/index.js'
-// import { ipcMain } from 'electron'
-
-// const willQuitApp = false
 
 const isMac = process.platform === 'darwin'
 /**
@@ -21,17 +18,21 @@ const winURL = process.env.NODE_ENV === 'development'
   : `file://${__dirname}/index.html`
 
 function createWindow() {
+  // const size = screen.getPrimaryDisplay().workAreaSize // 获取屏幕像素
+  // const width = parseInt(size.width * 0.7)
+  // const height = parseInt(size.height * 0.7)
   /**
    * Initial window options
    */
   mainWindow = new BrowserWindow({
     height: 700,
-    useContentSize: true,
     width: 1200,
+    useContentSize: true,
     webPreferences: {
       webSecurity: false, // 取消跨域
       nodeIntegration: true, // 允许node
-      contextIsolation: false // v12版本 允许node
+      contextIsolation: false, // v12版本 允许node
+      enableRemoteModule: true // 允许使用对话框
     }
   })
 
@@ -67,10 +68,7 @@ app.on('activate', () => {
   mainWindow.show()
 })
 
-// app.on('before-quit', () => {
-//   willQuitApp = true
-// })
-
+// app.on('before-quit', () => {})
 
 app.allowRendererProcessReuse = false
 

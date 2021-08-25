@@ -31,7 +31,7 @@ function initClose(app, mainWindow) {
       }
     } else {
       if (data === 1) { // win缩小到托盘
-        mainWindow.setSkipTaskbar(true) // 使窗口不显示在任务栏中
+        // mainWindow.setSkipTaskbar(true) // 使窗口不显示在任务栏中
         mainWindow.hide() // 隐藏窗口
       } else {
         app.quit() // win退出
