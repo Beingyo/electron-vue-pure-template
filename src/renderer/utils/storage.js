@@ -1,5 +1,5 @@
-import cfg from '@config/config'
-const name = `${cfg.VUE_APP_NAME}-${cfg.VUE_APP_ENV}-`
+import config from '@config/index'
+const name = `${config.VUE_APP_NAME}-${config.VUE_APP_ENV}-`
 
 function LgetItem(key) {
   const value = localStorage.getItem(name + key)

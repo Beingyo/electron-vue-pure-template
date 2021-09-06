@@ -1,8 +1,6 @@
 // 设置菜单栏
 import { app, dialog, Menu, ipcMain } from 'electron'
-// import config from '../config/config'
 
-const config = require('../config/config')
 const os = require('os')
 const isMac = process.platform === 'darwin'
 const { version } = require('../../package.json')
@@ -10,6 +8,13 @@ const { version } = require('../../package.json')
 var lang = 'zh_CN'
 var menuData = require('./lang/' + lang + '.json')
 var menuConfig = []
+
+
+function initMenu() {
+  init() // 初始化菜单栏功能
+  setMenu() // 加载菜单栏
+  changeLang() // 触发i18n方法
+}
 
 function init() {
   menuConfig = [
@@ -63,34 +68,11 @@ function info() {
   })
 }
 
-// 设置开发者工具
-function setTool(mainWindow) {
-  if (config.devToolsShow) {
-    // mainWindow.webContents.openDevTools({ mode: 'detach' })
-    mainWindow.webContents.openDevTools({ mode: 'right' })
-  } else {
-    mainWindow.webContents.openDevTools({ mode: 'detach' })
-    // mainWindow.webContents.openDevTools({ mode: 'right' })
-    // mainWindow.webContents.closeDevTools()
-  }
-}
 
 // 设置菜单栏
 function setMenu() {
-  let menu
-  if (config.devToolsShow) {
-    menu = Menu.buildFromTemplate(menuConfig)
-    Menu.setApplicationMenu(menu)
-  } else {
-    if (isMac) {
-      menu = Menu.buildFromTemplate(menuConfig)
-      Menu.setApplicationMenu(menu)
-    } else {
-      menu = Menu.buildFromTemplate(menuConfig)
-      // 无菜单 | null
-      Menu.setApplicationMenu(menu) // null
-    }
-  }
+  let menu = Menu.buildFromTemplate(menuConfig)
+  Menu.setApplicationMenu(menu)
 }
 
 //i18n功能
@@ -101,14 +83,6 @@ function changeLang() {
     init()
     setMenu()
   });
-}
-
-function initMenu(mainWindow) {
-  init() // 初始化菜单栏功能
-  setMenu() // 加载菜单栏
-  changeLang() // 触发i18n方法
-  setTool(mainWindow) // 设置开发者工具
-
 }
 
 export default initMenu

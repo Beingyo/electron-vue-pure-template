@@ -50,7 +50,7 @@ function initUseTray(app, mainWindow, isFlash) {
   // 图标的上下文菜单
   const contextMenu = Menu.buildFromTemplate(trayMenuTemplate)
   // 设置此托盘图标的悬停提示内容
-  appTray.setToolTip(config.appName)
+  appTray.setToolTip(config.trayName)
   // 设置此图标的上下文菜单
   appTray.setContextMenu(contextMenu)
   // 单击右下角小图标显示应用

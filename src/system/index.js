@@ -1,9 +1,11 @@
+import { Menu } from 'electron'
 import config from '../config/index'
 import initAutoUpdate from './initAutoUpdate'
 import initUseTray from './initUseTray'
 import initClose from './initClose'
 import initMenu from './initMenu'
-import initStart from './initStart'
+import initSingle from './initSingle'
+import isdevTools from './isdevTools'
 
 function initSys(app, mainWindow) {
   if (config.isAutoUpdate) {
@@ -20,11 +22,14 @@ function initSys(app, mainWindow) {
     initClose(app, mainWindow)
   }
   if (config.isMenu) {
-    initMenu(mainWindow)
+    initMenu()
+  } else {
+    Menu.setApplicationMenu(null)
   }
-  if (config.isStart) {
-    initStart(app, mainWindow)
+  if (config.isSingle) {
+    initSingle(app, mainWindow)
   }
+  isdevTools(config.isdevTools, mainWindow)
 }
 
 export default initSys
