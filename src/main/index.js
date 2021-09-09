@@ -1,7 +1,9 @@
-import { app, BrowserWindow, screen } from 'electron'
+import { app, BrowserWindow, screen, Menu, globalShortcut } from 'electron'
 import initSystem from '../system/index.js'
 
 const isMac = process.platform === 'darwin'
+
+
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -18,15 +20,15 @@ const winURL = process.env.NODE_ENV === 'development'
   : `file://${__dirname}/index.html`
 
 function createWindow() {
-  // const size = screen.getPrimaryDisplay().workAreaSize // 获取屏幕像素
-  // const width = parseInt(size.width * 0.7)
-  // const height = parseInt(size.height * 0.7)
+  const size = screen.getPrimaryDisplay().workAreaSize // 获取屏幕像素
+  const width = parseInt(size.width * 0.7)
+  const height = parseInt(size.height * 0.7)
   /**
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 700,
-    width: 1200,
+    height: height,
+    width: width,
     useContentSize: true,
     webPreferences: {
       webSecurity: false, // 取消跨域
@@ -53,12 +55,18 @@ function createWindow() {
   // })
 }
 
-app.on('ready', createWindow)
+// app.on('ready', createWindow)
+app.on('ready', () => {
+	createWindow()
+    globalShortcut.register('F5', () => {
+        return false;
+    })
+})
 
 app.on('window-all-closed', () => {
-  // if (!isMac) {
-  //   app.quit()
-  // }
+  if (!isMac) {
+    app.quit()
+  }
 })
 
 app.on('activate', () => {
