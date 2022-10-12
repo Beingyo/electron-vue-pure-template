@@ -19,8 +19,6 @@
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
     "postinstall": "npm run lint:fix"
   },
-
-
   "build": {
     "productName": "产品名称",
     "appId": "org.yjy.electron-vue",
@@ -61,10 +59,14 @@
     "mac": {
       "icon": "build/icons/icon.icns"
     },
-    "protocols": [{
-      "name": "electron-vue-pure-template",
-      "schemes": ["electron-vue-pure-template"]
-    }],
+    "protocols": [
+      {
+        "name": "electron-vue-pure-template",
+        "schemes": [
+          "electron-vue-pure-template"
+        ]
+      }
+    ],
     "win": {
       "icon": "build/icons/icon.ico"
     },

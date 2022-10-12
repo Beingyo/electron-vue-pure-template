@@ -1,6 +1,6 @@
 // 托盘事件
 // import { dialog } from 'electron'
-import { Menu, Tray, nativeImage, ipcMain }  from 'electron'
+import { Menu, Tray, nativeImage, ipcMain } from 'electron'
 import config from '../config/index'
 
 // 日志
@@ -45,7 +45,7 @@ function initUseTray(app, mainWindow, isFlash) {
   ]
   // 系统托盘图标
   const trayIcon = __static + '/icons/icon.ico'
-  let image = nativeImage.createFromPath(trayIcon)
+  const image = nativeImage.createFromPath(trayIcon)
   appTray = new Tray(image)
   // 图标的上下文菜单
   const contextMenu = Menu.buildFromTemplate(trayMenuTemplate)
@@ -59,7 +59,7 @@ function initUseTray(app, mainWindow, isFlash) {
   })
 
   // 闪烁事件
-  if(isFlash) {
+  if (isFlash) {
     mainWindow.on('focus', () => {
       if (flashTimer) {
         clearInterval(flashTimer)

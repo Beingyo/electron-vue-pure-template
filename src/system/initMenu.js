@@ -9,7 +9,6 @@ var lang = 'zh_CN'
 var menuData = require('./lang/' + lang + '.json')
 var menuConfig = []
 
-
 function initMenu() {
   init() // 初始化菜单栏功能
   setMenu() // 加载菜单栏
@@ -24,7 +23,7 @@ function init() {
       submenu: [{
         label: menuData.about.label, // 关于
         accelerator: isMac ? 'Alt+Cmd+I' : 'Alt+Shift+I',
-        click: function () {
+        click: function() {
           info()
         }
       }]
@@ -47,7 +46,7 @@ function init() {
     {
       label: menuData.toggledevtools.label, // 切换到开发者工具
       submenu: [{
-        label: menuData.toggledevtools.tool,  // 开发者工具
+        label: menuData.toggledevtools.tool, // 开发者工具
         accelerator: 'CmdOrCtrl+I',
         role: 'toggledevtools'
       }]
@@ -68,21 +67,20 @@ function info() {
   })
 }
 
-
 // 设置菜单栏
 function setMenu() {
-  let menu = Menu.buildFromTemplate(menuConfig)
+  const menu = Menu.buildFromTemplate(menuConfig)
   Menu.setApplicationMenu(menu)
 }
 
-//i18n功能
+// i18n功能
 function changeLang() {
   ipcMain.on('changeLanguage', (event, data) => {
     lang = data
     menuData = require('./lang/' + lang + '.json')
     init()
     setMenu()
-  });
+  })
 }
 
 export default initMenu

@@ -7,6 +7,15 @@
       <el-col :span="3" :offset="1"><div class="grid-content bg-purple"><span id="demo4" @click="routeLink">i18n</span></div></el-col>
       <el-col :span="3" :offset="1"><div class="grid-content bg-purple"><span id="demo5" @click="routeLink">托盘</span></div></el-col>
     </el-row>
+
+    <el-row :gutter="10">
+      <el-col :span="3" :offset="2"><div class="grid-content bg-purple"><span id="demo6" @click="routeLink">二进制/文件流</span></div></el-col>
+      <!-- <el-col :span="3" :offset="1"><div class="grid-content bg-purple"><span id="demo7" @click="routeLink">MQTT</span></div></el-col> -->
+      <!-- <el-col :span="3" :offset="1"><div class="grid-content bg-purple"><span id="demo3" @click="routeLink">修改JSON文件</span></div></el-col> -->
+      <!-- <el-col :span="3" :offset="1"><div class="grid-content bg-purple"><span id="demo4" @click="routeLink">i18n</span></div></el-col> -->
+      <!-- <el-col :span="3" :offset="1"><div class="grid-content bg-purple"><span id="demo5" @click="routeLink">托盘</span></div></el-col> -->
+    </el-row>
+
   </div>
 </template>
 

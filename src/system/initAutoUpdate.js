@@ -9,7 +9,7 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 function initAutoUpdate(app, mainWindow, updateUrl) {
   // 设置更新地址
   autoUpdater.setFeedURL(updateUrl) // 设置全量更新包url
-  autoUpdater.autoDownload = false  // 发现全量版本后暂时不下载
+  autoUpdater.autoDownload = false // 发现全量版本后暂时不下载
   // 通过main进程发送事件给renderer进程，提示更新信息
   function sendUpdateMessage(text) {
     mainWindow.webContents.send('updateAppMessage', text)

@@ -1,8 +1,7 @@
-import { app, BrowserWindow, screen, Menu, globalShortcut } from 'electron'
-import initSystem from '../system/index.js'
+import { app, BrowserWindow, screen, globalShortcut } from 'electron'
+import { initSystem, limitMore } from '../system/index.js'
 
 const isMac = process.platform === 'darwin'
-
 
 /**
  * Set `__static` path to static files in production
@@ -42,7 +41,6 @@ function createWindow() {
 
   // 初始化系统配置
   initSystem(app, mainWindow)
-
   mainWindow.on('enter-full-screen', () => {
     isMac && app.commandLine.appendSwitch('disable-pinch', true)
   })
@@ -57,10 +55,10 @@ function createWindow() {
 
 // app.on('ready', createWindow)
 app.on('ready', () => {
-	createWindow()
-    globalShortcut.register('F5', () => {
-        return false;
-    })
+  createWindow()
+  globalShortcut.register('F5', () => {
+    return false
+  })
 })
 
 app.on('window-all-closed', () => {
@@ -75,6 +73,9 @@ app.on('activate', () => {
   // }
   mainWindow.show()
 })
+
+// 限制程序多开
+limitMore(app, mainWindow)
 
 // app.on('before-quit', () => {})
 

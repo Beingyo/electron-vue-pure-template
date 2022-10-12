@@ -7,7 +7,7 @@ import initMenu from './initMenu'
 import initSingle from './initSingle'
 import isdevTools from './isdevTools'
 
-function initSys(app, mainWindow) {
+function initSystem(app, mainWindow) {
   if (config.isAutoUpdate) {
     if (!config.updateUrl) {
       console.log('请设置正确的更新地址!')
@@ -26,10 +26,16 @@ function initSys(app, mainWindow) {
   } else {
     Menu.setApplicationMenu(null)
   }
-  if (config.isSingle) {
-    initSingle(app, mainWindow)
-  }
   isdevTools(config.isdevTools, mainWindow)
 }
 
-export default initSys
+function limitMore(app, mainWindow) {
+  if (config.isSingle) {
+    initSingle(app, mainWindow)
+  }
+}
+
+export {
+  initSystem,
+  limitMore
+}

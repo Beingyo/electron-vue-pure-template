@@ -8,25 +8,25 @@
 
 <script>
 export default {
-	data() {
-		return {
-			disable: false
-		}
-	},
-	created() {
-		this.$electron.ipcRenderer.on('disable', (event, data) => {
-			console.log(JSON.stringify(data))
-			this.disable = data.disable
-		})
-	},
-	methods: {
-		toIndex() {
-			this.$router.push({ path: '/' })
-		},
-		light() {
-			this.disable = true
-			this.$electron.ipcRenderer.send('flash')
-		}
-	},
+  data() {
+    return {
+      disable: false
+    }
+  },
+  created() {
+    this.$electron.ipcRenderer.on('disable', (event, data) => {
+      console.log(JSON.stringify(data))
+      this.disable = data.disable
+    })
+  },
+  methods: {
+    toIndex() {
+      this.$router.push({ path: '/' })
+    },
+    light() {
+      this.disable = true
+      this.$electron.ipcRenderer.send('flash')
+    }
+  }
 }
 </script>

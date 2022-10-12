@@ -40,7 +40,7 @@ export default {
           { color: '#5cb87a', percentage: 100 }
         ],
         updateType: 0,
-        isHotUpdate: false,
+        isHotUpdate: false
       }
     }
   },
@@ -88,7 +88,7 @@ export default {
         if (data.percent >= 100) {
           _this.UpdateInfo.title = '下载完成，即将自动重启应用'
           setTimeout(() => {
-              _this.isHotUpdate === true ? _this.$electron.ipcRenderer.send('isUpdatePartNow') : _this.$electron.ipcRenderer.send('isUpdateNow')
+            _this.isHotUpdate === true ? _this.$electron.ipcRenderer.send('isUpdatePartNow') : _this.$electron.ipcRenderer.send('isUpdateNow')
           }, 3000)
         }
       })
@@ -103,7 +103,7 @@ export default {
         this.UpdateInfo.show = true
         this.$electron.ipcRenderer.send('startDownload')
       }).catch(() => {
-      });
+      })
     },
     // 增量更新
     updatePart() {
@@ -114,10 +114,10 @@ export default {
       }).then(() => {
         this.UpdateInfo.show = true
         this.isHotUpdate = true
-        //下载增量资源包
+        // 下载增量资源包
         this.$electron.ipcRenderer.send('partDownload')
       }).catch(() => {
-      });
+      })
     },
     // 检测更新状态
     checkForUpdate() {
